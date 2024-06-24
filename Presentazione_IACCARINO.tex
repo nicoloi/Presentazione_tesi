@@ -48,61 +48,60 @@
 \section{Introduzione}
 
 \begin{frame}{Il metodo di risoluzione}
-    \textbf{Obiettivo}: implementare in Java il metodo di risoluzione per la logica classica e successivamente estenderlo ad alcune logiche modali non-normali.
-
-    \vspace{10px}
-
-    Il metodo di risoluzione inferisce la soddisfacibilità di una formula espressa in Forma Normale Congiuntiva (CNF), ovvero come un \textbf{insieme di clausole} $S$.
-
-    \textbf{Clausola}: insieme di letterali.
-
-    \vspace{10px}
-
-    Lo scopo del metodo di risoluzione è trovare la contraddizione in un insieme di clausole $S$.
-
+    \begin{itemize}
+        \item \textbf{Obiettivo}: implementare in Java il metodo di risoluzione per logiche modali non-normali, partendo dall'implementazione per la logica classica.
+        \vspace{10px}
+        \item il metodo di risoluzione per logiche modali non-normali è descritto in un recente articolo, ma mai implementato
+        \vspace{10px}
+        \item Il metodo di risoluzione inferisce la soddisfacibilità di un \textbf{insieme di clausole} $S$.
+        \vspace{10px}
+        \item \textbf{Clausola}: insieme di letterali.
+    \end{itemize}
+    
     \vspace{10px}
 
     Vediamo ora il metodo di risoluzione per la logica classica.
+    % Lo scopo del metodo di risoluzione è trovare la contraddizione in un insieme di clausole $S$.
 \end{frame}
 
 
 \section{Logica classica}
 \begin{frame}{Il metodo di risoluzione per la logica classica}
-    % Il metodo di risoluzione inferisce la soddisfacibilità di una formula espressa in Forma Normale Congiuntiva (CNF), ovvero come un \textbf{insieme di clausole} $S$.
-
-    % Clausola: insieme di letterali.
-    Nella logica classica le clausole contengono letterali proposizionali.
-
-    Letterale proposizionale: variabile proposizionale o sua negazione. $a$ e $\lnot b$ sono letterali.
-
-    Un insieme $S$ di clausole è \textbf{soddisfacibile} sse esiste interpretazione che soddisfa \textbf{tutte} le clausole in $S$.
-
-    \vspace{5px}
-
-    Ad esempio 
-    \[S \; = \; \{ \quad \{a, \lnot b\}, \{b, \lnot c\}, \{\lnot a, c\} \quad \}\]
-    è un insieme di clausole soddisfacibile con tre clausole.
-    
-    \vspace{10px}
-
-    Viene utilizzata una sola regola di inferenza: la \textbf{regola di risoluzione} (\emph{Res}). A partire da due premesse $C_1$ e $C_2$ si genera una risolvente $R$.
+    \begin{itemize}
+        \item Le clausole contengono letterali proposizionali.
+        % \item \textbf{Letterale proposizionale}: variabile proposizionale o sua negazione. $a$ e $\lnot b$ sono letterali.
+        \vspace{10px}
+        \item Un insieme $S$ di clausole è \textbf{soddisfacibile} sse esiste interpretazione che soddisfa \textbf{tutte} le clausole in $S$.
+        Ad esempio:
+        \[S \; = \; \{ \quad \{a, \lnot b\}, \{b, \lnot c\}, \{\lnot a, c\} \quad \}\]
+        è un insieme di clausole soddisfacibile con tre clausole.
+        \vspace{10px}
+        \item Viene utilizzata una sola regola di inferenza: la \textbf{regola di risoluzione} (\emph{Res}). A partire da due premesse $C_1$ e $C_2$ si genera una risolvente $R$.
+    \end{itemize}
 \end{frame}
 
 \begin{frame}{Regola di risoluzione}
-    \emph{Res} si applica su due clausole $C_1$ e $C_2$ con letterale $L \in C_1$ ed il suo opposto $\overline{L} \in C_2$. Si cancellano $L$ e $\overline{L}$ e si uniscono le due clausole.
-    Esempio:
-    \[
-        \AXC{$\overbrace{\{ a, b \}}^{C_1}$}
-        \AXC{$\overbrace{\{\lnot b, c, d \}}^{C_2}$}
-        \RightLabel{Res}
-        \BIC{$\underbrace{\{ a, c, d \}}_{R}$}
-        \DP
-    \]
-    $R$ è la \textbf{risolvente}. Viene aggiunta a $S$ se non è già presente e non è tautologica. Lo scopo è trovare la clausola vuota.
+    \begin{itemize}
+        \item \emph{Res} si applica su due clausole $C_1$ e $C_2$ con letterale $L \in C_1$ ed il suo opposto $\overline{L} \in C_2$. Si cancellano $L$ e $\overline{L}$ e si uniscono le due clausole.
+        Esempio:
+        \[
+            \AXC{$\overbrace{\{ a, b \}}^{C_1}$}
+            \AXC{$\overbrace{\{\lnot b, c, d \}}^{C_2}$}
+            \RightLabel{Res}
+            \BIC{$\underbrace{\{ a, c, d \}}_{R}$}
+            \DP
+        \]
+        \item $R$ è la \textbf{risolvente}. Viene aggiunta a $S$ se non è tautologica e non è già presente.
+        
+    \end{itemize}
+
     \begin{center}
         \begin{minipage}{0.45\textwidth}
+            \begin{itemize}
+                \item Lo scopo è trovare la clausola vuota.
+            \end{itemize}
             Se la trova $\implies$ S è \textcolor{red}{INSODDISFACIBILE}
-            
+
             Se non la trova $\implies$ S è \textcolor{darkgreen}{SODDISFACIBILE}
         \end{minipage}
         \hspace{0.05\textwidth}
@@ -122,61 +121,70 @@
 % \section{Clausificazione}
 
 \begin{frame}{Clausificazione di una formula}
-    \textbf{Clausificazione}: conversione di una formula in CNF.
-    
-    per convertire una formula in CNF si applicano le regole di inferenza:
     \begin{itemize}
-    \item \textbf{Eliminazione della doppia implicazione}
-    \item \textbf{Eliminazione dell'implicazione}
-    \item \textbf{Proprietà distributiva di or su and}
-    \item \textbf{Doppia negazione}
-    \item \textbf{Leggi di De Morgan}
+        \item per verificare soddisfacibilità di una formula arbitraria F bisogna applicare la clausificazione.
+        \item \textbf{Clausificazione}: conversione di una formula in insieme di clausole equivalente.
+        \item per effettuare la clausificazione si applicano le regole di inferenza:
+        \begin{itemize}
+            \item \textbf{Eliminazione della doppia implicazione}
+            \item \textbf{Eliminazione dell'implicazione}
+            \item \textbf{Proprietà distributiva di $\lor$ su $\land$}
+            \item \textbf{Doppia negazione}
+            \item \textbf{Leggi di De Morgan}
+        \end{itemize}
+        % \item Le regole vengono applicate ricorsivamente sulle sottoformule.
+        \item Esempio: $\quad F = (a \lor b) \to c$ \\diventa: $\quad S = \{ \; \{\lnot a, c\}, \{\lnot b, c\} \; \}$
     \end{itemize}
-    Esempio: $\quad F = (a \lor b) \to c$ \\diventa: $\quad S = \{ \; \{\lnot a, c\}, \{\lnot b, c\} \; \}$
+    
 \end{frame}
 
 \section{Logiche modali non-normali}
 \begin{frame}{Metodo di risoluzione per le logiche modali}
-    In questo tipo di logiche i letterali possono essere \emph{proposizionali} o \emph{modali}. $\Box p$ e $\lnot \Box p$ sono modali.
-
-    Le clausole sono di due tipi:
     \begin{itemize}
-        \item \textbf{Clausola locale}: \[ l_1 \lor l_2 \lor \ldots \lor l_n \]
-        \item \textbf{Clausola globale}: \[ G(l_1 \lor l_2 \lor \ldots \lor l_n) \]
+        \item I letterali possono essere \emph{proposizionali} o \emph{modali}. 
+        \item $\Box p$ e $\lnot \Box p$ sono modali.
+        \item Le clausole sono di due tipi:
+        \begin{itemize}
+            \item \textbf{Clausola locale (classica)}: \[ l_1 \lor l_2 \lor \ldots \lor l_n \]
+            \item \textbf{Clausola \textcolor{red}{globale}}: \[ G(l_1 \lor l_2 \lor \ldots \lor l_n) \]
+        \end{itemize}
+        dove $l_i$ è un letterale.
+        \item Consideriamo la logica modale non-normale minimale \textbf{E}. Per questa logica il metodo di risoluzione applica regole $RES_E$. 
     \end{itemize}
-    dove $l_i$ è un letterale.
 
-    Consideriamo la logica modale non-normale minimale \textbf{E}. Per questa logica il metodo di risoluzione applica regole $RES_E$. 
 \end{frame}
 
 \begin{frame}{Regole di risoluzione $RES_E$}
-    Le regole $RES_E$ sono:
-    \begin{figure}
-        \centering
-        \includegraphics[width=0.7\textwidth, height=0.5\textheight]{assets/res_E.png}
-    \end{figure} 
-    Dove $C$ e $D$ sono clausole, $l$ è un letterale, e $p$ è una variabile proposizionale.
+    \begin{itemize}
+        \item Le regole $RES_E$ sono:
+        \begin{figure}
+            \centering
+            \includegraphics[width=0.7\textwidth, height=0.5\textheight]{assets/res_E.png}
+        \end{figure} 
+        \item Dove $C$ e $D$ sono clausole, $l$ è un letterale, e $p$ è una variabile proposizionale.
+    \end{itemize}
 \end{frame}
 
 \begin{frame}{Clausificazione di formule modali}
-    Le formule modali usano il connettivo \emph{box} ($\Box$).
+    \begin{itemize}
+        \item Le formule modali usano il connettivo \emph{box} ($\Box$).
+        \item Sia $\phi$ una formula. Per la clausificazione si usano le funzioni $\eta$ e \textbf{R}
+        \[
+            \eta: \quad subf(\phi) \to V \setminus V(\phi)
+        \]
+        \item $\phi$ soddisfacibile sse $\{ \eta(\phi) \} \cup R(G(\eta(\phi) \tto \phi))$ è soddisfacibile.
+        \item \textbf{R} è così definita:
+        \[
+            \begin{aligned}
+            R(G(t \tto p)) &= \{ G(\lnot t \lor p), G(t \lor \lnot p) \} \\
+            R(G(t \tto \lnot \psi)) &= \{ G(\lnot t \lor \lnot \eta(\psi)), G(t \lor \eta(\psi)) \} \cup R(G(\eta(\psi) \tto \psi)) \\
+            R(G(t \tto \psi \lor \psi')) &= \{ G(\lnot t \lor \eta(\psi) \lor \eta(\psi')), G(t \lor \lnot \eta(\psi)), G(t \lor \lnot \eta(\psi')) \} \\
+            & \quad \cup R(G(\eta(\psi) \tto \psi)) \cup R(G(\eta(\psi') \tto \psi')) \\
+            R(G(t \tto \Box \psi)) &= \{ G(\lnot t \lor \Box \eta(\psi)), G(t \lor \lnot \Box \eta(\psi)) \} \cup R(G(\eta(\psi) \tto \psi))
+            \end{aligned}
+        \]
+    \end{itemize}
 
-    Sia $\phi$ una formula. Per la clausificazione si usano le funzioni $\eta$ e \textbf{R}
-    \[
-        \eta: \quad subf(\phi) \to V \setminus V(\phi)
-    \]
-    $\phi$ soddisfacibile sse $\{ \eta(\phi) \} \cup R(G(\eta(\phi) \tto \phi))$ è soddisfacibile.
-
-    \textbf{R} è così definita:
-    \[
-        \begin{aligned}
-        R(G(t \tto p)) &= \{ G(\lnot t \lor p), G(t \lor \lnot p) \} \\
-        R(G(t \tto \lnot \psi)) &= \{ G(\lnot t \lor \lnot \eta(\psi)), G(t \lor \eta(\psi)) \} \cup R(G(\eta(\psi) \tto \psi)) \\
-        R(G(t \tto \psi \lor \psi')) &= \{ G(\lnot t \lor \eta(\psi) \lor \eta(\psi')), G(t \lor \lnot \eta(\psi)), G(t \lor \lnot \eta(\psi')) \} \\
-        & \quad \cup R(G(\eta(\psi) \tto \psi)) \cup R(G(\eta(\psi') \tto \psi')) \\
-        R(G(t \tto \Box \psi)) &= \{ G(\lnot t \lor \Box \eta(\psi)), G(t \lor \lnot \Box \eta(\psi)) \} \cup R(G(\eta(\psi) \tto \psi))
-        \end{aligned}
-    \]
 \end{frame}
 
 \section{Utilizzo pratico del metodo di risoluzione}
@@ -200,7 +208,7 @@
 \end{frame}
 
 \begin{frame}{Esempio}
-    Consideriamo la seguente formula $F$:
+    Consideriamo la seguente formula $F$ classica:
     \[
         F \; = \; (a \land (a \to b)) \to b
     \]
@@ -231,6 +239,16 @@
         \end{minipage}
     \end{center}
     $\lnot F$ è insoddisfacibile, questo dimostra che $F$ è valida.
+\end{frame}
+
+\begin{frame}{Tecnologie utilizzate}
+    \begin{itemize}
+        \item \textbf{Visual Studio Code}: ambiente utilizzato per programmare in Java.
+        \vspace{10px}
+        \item \textbf{ANTLR4}: per effettuare parsing di formule.
+        \vspace{10px}
+        \item \textbf{Junit}: per eseguire il testing del metodo di risoluzione.
+    \end{itemize}
 \end{frame}
 
 % ==================///==================///==================///
