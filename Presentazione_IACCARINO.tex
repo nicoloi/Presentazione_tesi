@@ -49,7 +49,7 @@
 
 \begin{frame}{Il metodo di risoluzione}
     \begin{itemize}
-        \item \textbf{Obiettivo}: implementare in Java il metodo di risoluzione per logiche modali non-normali, partendo dall'implementazione per la logica classica.
+        \item \textbf{Obiettivo}: implementare in Java il metodo di risoluzione per logiche modali non-normali, partendo dall'implementazione del metodo per la logica classica (già noto).
         \vspace{10px}
         \item il metodo di risoluzione per logiche modali non-normali è descritto in un recente articolo, ma mai implementato
         \vspace{10px}
@@ -82,7 +82,7 @@
 
 \begin{frame}{Regola di risoluzione}
     \begin{itemize}
-        \item \emph{Res} si applica su due clausole $C_1$ e $C_2$ con letterale $L \in C_1$ ed il suo opposto $\overline{L} \in C_2$. Si cancellano $L$ e $\overline{L}$ e si uniscono le due clausole.
+        \item Per applicare \emph{Res} è necessario che esista un letterale $L \in C_1$ ed il suo opposto $\overline{L} \in C_2$. Si cancellano $L$ e $\overline{L}$ e si uniscono le due clausole.
         Esempio:
         \[
             \AXC{$\overbrace{\{ a, b \}}^{C_1}$}
@@ -122,7 +122,7 @@
 
 \begin{frame}{Clausificazione di una formula}
     \begin{itemize}
-        \item per verificare soddisfacibilità di una formula arbitraria F bisogna applicare la clausificazione.
+        \item per verificare soddisfacibilità di una formula arbitraria F bisogna prima eseguire la clausificazione.
         \item \textbf{Clausificazione}: conversione di una formula in insieme di clausole equivalente.
         \item per effettuare la clausificazione si applicano le regole di inferenza:
         \begin{itemize}
@@ -162,17 +162,19 @@
             \includegraphics[width=0.7\textwidth, height=0.5\textheight]{assets/res_E.png}
         \end{figure} 
         \item Dove $C$ e $D$ sono clausole, $l$ è un letterale, e $p$ è una variabile proposizionale.
+        \item Come nella logica classica, lo scopo è trovare la clausola vuota.
     \end{itemize}
 \end{frame}
 
 \begin{frame}{Clausificazione di formule modali}
     \begin{itemize}
-        \item Le formule modali usano il connettivo \emph{box} ($\Box$).
-        \item Sia $\phi$ una formula. Per la clausificazione si usano le funzioni $\eta$ e \textbf{R}
+        % \item Le formule modali usano il connettivo \emph{box} ($\Box$).
+        \item Sia $\phi$ una formula. Occorre introdurre nuove variabili proposizionali per rappresentare le sottoformule di $\phi$. Questo viene fatto con la funzione $\eta$.
         \[
-            \eta: \quad subf(\phi) \to V \setminus V(\phi)
+            \eta: \quad subf(\phi) \mapsto V \setminus V(\phi)
         \]
-        \item $\phi$ soddisfacibile sse $\{ \eta(\phi) \} \cup R(G(\eta(\phi) \tto \phi))$ è soddisfacibile.
+            \item Per la clausificazione di $\phi$ si usano le funzioni $\eta$ e \textbf{R}
+        \item $\phi$ è soddisfacibile sse $\{ \eta(\phi) \} \cup R(G(\eta(\phi) \tto \phi))$ è soddisfacibile.
         \item \textbf{R} è così definita:
         \[
             \begin{aligned}
@@ -184,39 +186,41 @@
             \end{aligned}
         \]
     \end{itemize}
-
 \end{frame}
 
 \section{Utilizzo pratico del metodo di risoluzione}
 
 \begin{frame}{Verificare la validità di una formula}
-    Un utilizzo pratico del metodo di risoluzione è la verifica della \textbf{validità} di una formula $F$.
-    \begin{center}
-        F è \textbf{valida} $\iff$ $\lnot F$ è \textbf{insoddisfacibile}
-    \end{center}
-    
-    Per verificare se $F$ è valida:
     \begin{itemize}
-        \item si nega $F$, e si ottiene $\lnot F$.
-        \item si effettua la clausificazione su $\lnot F$ e si ottiene l'insieme di clausole $S$.
-        \item si applica il metodo di risoluzione su $S$.
+        \item Un utilizzo pratico del metodo di risoluzione è la verifica della \textbf{validità} di una formula $F$.
+        \begin{center}
+            F è \textbf{valida} $\iff$ $\lnot F$ è \textbf{insoddisfacibile}
+        \end{center}
+        \vspace{5px}
+        \item Per verificare se $F$ è valida:
+        \begin{itemize}
+            \item si nega $F$, ottenendo $\lnot F$.
+            \item si effettua la clausificazione su $\lnot F$ e si ottiene l'insieme di clausole equivalente $S$.
+            \item si applica il metodo di risoluzione su $S$.
+        \end{itemize}
+        \item Se $S$ è insoddisfacibile $\implies$ $F$ è \textcolor{darkgreen}{VALIDA}.
+        \item Se $S$ è soddisfacibile $\implies$ $F$ è \textcolor{red}{NON VALIDA}.
     \end{itemize}
-
-    Se $S$ è insoddisfacibile $\implies$ $F$ è \textcolor{darkgreen}{VALIDA}.
-
-    Se $S$ è soddisfacibile $\implies$ $F$ è \textcolor{red}{NON VALIDA}.
 \end{frame}
 
-\begin{frame}{Esempio}
-    Consideriamo la seguente formula $F$ classica:
-    \[
-        F \; = \; (a \land (a \to b)) \to b
-    \]
-    applicando la clausificazione su $\lnot F$ si ottiene il seguente insieme di clausole $S$:
-    \[
-        S \; = \; \{\quad \{a\}, \{\lnot a, b\}, \{\lnot b\} \quad\}
-    \]
-    eseguendo il metodo di risoluzione si trova la clausola vuota in due passaggi:
+\begin{frame}{Esempio (su logica classica)}
+    \begin{itemize}
+        \item Consideriamo la seguente formula $F$:
+        \[
+            F \; = \; (a \land (a \to b)) \to b
+        \]
+        \item applicando la clausificazione su $\lnot F$ si ottiene il seguente insieme di clausole $S$:
+        \[
+            S \; = \; \{\quad \{a\}, \{\lnot a, b\}, \{\lnot b\} \quad\}
+        \]
+        \item eseguendo il metodo di risoluzione si trova la clausola vuota in due passaggi:
+        
+    \end{itemize}
     \begin{center}
         \begin{minipage}{0.45\textwidth}
             \[
@@ -238,7 +242,11 @@
             \]
         \end{minipage}
     \end{center}
-    $\lnot F$ è insoddisfacibile, questo dimostra che $F$ è valida.
+
+    \begin{itemize}
+        \item $\lnot F$ è insoddisfacibile, questo dimostra che $F$ è valida.
+    \end{itemize}
+    
 \end{frame}
 
 \begin{frame}{Tecnologie utilizzate}
