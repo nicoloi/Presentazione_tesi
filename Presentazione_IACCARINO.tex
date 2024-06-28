@@ -47,21 +47,30 @@
 
 \section{Introduzione}
 
+\begin{frame}{Obiettivi della tesi}
+    \begin{itemize}
+        \item \textbf{Obiettivo}: implementare in Java il metodo di risoluzione per logiche modali non-normali, partendo dall'implementare il metodo per la logica classica.
+        \vspace{10px}
+        \item il metodo di risoluzione per la logica classica è già noto, e già implementato.
+        \vspace{10px}
+        \item il metodo di risoluzione per logiche modali non-normali è descritto in un recente articolo, e mai implementato.
+        \vspace{10px}
+    \end{itemize}
+    
+    
+\end{frame}
+
 \begin{frame}{Il metodo di risoluzione}
     \begin{itemize}
-        \item \textbf{Obiettivo}: implementare in Java il metodo di risoluzione per logiche modali non-normali, partendo dall'implementazione del metodo per la logica classica (già noto).
+        \item \textbf{metodo di risoluzione}: sistema di calcolo per inferire la soddisfacibilità di un \emph{insieme di clausole} $S$.
         \vspace{10px}
-        \item il metodo di risoluzione per logiche modali non-normali è descritto in un recente articolo, ma mai implementato
-        \vspace{10px}
-        \item Il metodo di risoluzione inferisce la soddisfacibilità di un \textbf{insieme di clausole} $S$.
+        \item \textbf{Insieme di clausole}: formula scritta in \emph{Forma normale congiuntiva} (CNF).
         \vspace{10px}
         \item \textbf{Clausola}: insieme di letterali.
     \end{itemize}
-    
-    \vspace{10px}
+    \vspace{20px}
 
     Vediamo ora il metodo di risoluzione per la logica classica.
-    % Lo scopo del metodo di risoluzione è trovare la contraddizione in un insieme di clausole $S$.
 \end{frame}
 
 
@@ -69,14 +78,13 @@
 \begin{frame}{Il metodo di risoluzione per la logica classica}
     \begin{itemize}
         \item Le clausole contengono letterali proposizionali.
-        % \item \textbf{Letterale proposizionale}: variabile proposizionale o sua negazione. $a$ e $\lnot b$ sono letterali.
         \vspace{10px}
         \item Un insieme $S$ di clausole è \textbf{soddisfacibile} sse esiste interpretazione che soddisfa \textbf{tutte} le clausole in $S$.
         Ad esempio:
         \[S \; = \; \{ \quad \{a, \lnot b\}, \{b, \lnot c\}, \{\lnot a, c\} \quad \}\]
         è un insieme di clausole soddisfacibile con tre clausole.
         \vspace{10px}
-        \item Viene utilizzata una sola regola di inferenza: la \textbf{regola di risoluzione} (\emph{Res}). A partire da due premesse $C_1$ e $C_2$ si genera una risolvente $R$.
+        \item Viene utilizzata una sola regola di inferenza: la \textbf{regola di risoluzione} (\emph{Res}). A partire da due premesse $C_1, C_2 \in S$ si genera una risolvente $R$.
     \end{itemize}
 \end{frame}
 
@@ -139,7 +147,7 @@
 \end{frame}
 
 \section{Logiche modali non-normali}
-\begin{frame}{Metodo di risoluzione per le logiche modali}
+\begin{frame}{Metodo di risoluzione per le logiche modali non-normali}
     \begin{itemize}
         \item I letterali possono essere \emph{proposizionali} o \emph{modali}. 
         \item $\Box p$ e $\lnot \Box p$ sono modali.
@@ -149,7 +157,7 @@
             \item \textbf{Clausola \textcolor{red}{globale}}: \[ G(l_1 \lor l_2 \lor \ldots \lor l_n) \]
         \end{itemize}
         dove $l_i$ è un letterale.
-        \item Consideriamo la logica modale non-normale minimale \textbf{E}. Per questa logica il metodo di risoluzione applica regole $RES_E$. 
+        \item Consideriamo la logica modale non-normale minimale \textbf{E}. Per questa logica il metodo di risoluzione applica le regole $RES_E$. 
     \end{itemize}
 
 \end{frame}
@@ -173,8 +181,8 @@
         \[
             \eta: \quad subf(\phi) \mapsto V \setminus V(\phi)
         \]
-            \item Per la clausificazione di $\phi$ si usano le funzioni $\eta$ e \textbf{R}
-        \item $\phi$ è soddisfacibile sse $\{ \eta(\phi) \} \cup R(G(\eta(\phi) \tto \phi))$ è soddisfacibile.
+        \item Per la clausificazione di $\phi$ si usa la funzione di riduzione \textbf{R}.
+        \item L'insieme di clausole equivalente a $\phi$ è: $\{ \eta(\phi) \} \cup R(G(\eta(\phi) \tto \phi))$.
         \item \textbf{R} è così definita:
         \[
             \begin{aligned}
@@ -192,7 +200,8 @@
 
 \begin{frame}{Verificare la validità di una formula}
     \begin{itemize}
-        \item Un utilizzo pratico del metodo di risoluzione è la verifica della \textbf{validità} di una formula $F$.
+        \item L'utilizzo pratico implementato è la verifica della \textbf{validità} di una formula $F$.
+        \vspace{5px}
         \begin{center}
             F è \textbf{valida} $\iff$ $\lnot F$ è \textbf{insoddisfacibile}
         \end{center}
