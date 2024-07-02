@@ -64,9 +64,9 @@
     \begin{itemize}
         \item \textbf{metodo di risoluzione}: sistema di calcolo per inferire la soddisfacibilità di un \emph{insieme di clausole} $S$.
         \vspace{10px}
-        \item \textbf{Insieme di clausole}: formula scritta in \emph{Forma normale congiuntiva} (CNF).
+        \item \textbf{Insieme di clausole}: notazione insiemistica della \emph{Forma normale congiuntiva} (CNF) di una formula.
         \vspace{10px}
-        \item \textbf{Clausola}: insieme di letterali.
+        \item \textbf{Clausola}: disgiunzione di letterali $\Rightarrow$ insieme di letterali.
     \end{itemize}
     \vspace{20px}
 
@@ -77,7 +77,7 @@
 \section{Logica classica}
 \begin{frame}{Il metodo di risoluzione per la logica classica}
     \begin{itemize}
-        \item Le clausole contengono letterali proposizionali.
+        \item Le clausole contengono solo letterali proposizionali.
         \vspace{10px}
         \item Un insieme $S$ di clausole è \textbf{soddisfacibile} sse esiste interpretazione che soddisfa \textbf{tutte} le clausole in $S$.
         Ad esempio:
@@ -99,7 +99,7 @@
             \BIC{$\underbrace{\{ a, c, d \}}_{R}$}
             \DP
         \]
-        \item $R$ è la \textbf{risolvente}. Viene aggiunta a $S$ se non è tautologica e non è già presente.
+        \item La risolvente $R$ viene aggiunta a $S$ se non è tautologica e non è già presente in $S$.
         
     \end{itemize}
 
@@ -149,7 +149,7 @@
 \section{Logiche modali non-normali}
 \begin{frame}{Metodo di risoluzione per le logiche modali non-normali}
     \begin{itemize}
-        \item I letterali possono essere \emph{proposizionali} o \emph{modali}. 
+        \item I letterali possono essere \emph{proposizionali} o \textcolor{red}{\emph{modali}}. 
         \item $\Box p$ e $\lnot \Box p$ sono modali.
         \item Le clausole sono di due tipi:
         \begin{itemize}
@@ -169,7 +169,7 @@
             \centering
             \includegraphics[width=0.7\textwidth, height=0.5\textheight]{assets/res_E.png}
         \end{figure} 
-        \item Dove $C$ e $D$ sono clausole, $l$ è un letterale, e $p$ è una variabile proposizionale.
+        \item $C$ e $D$ sono clausole, $l$ è un letterale, e $p$ è una variabile proposizionale.
         \item Come nella logica classica, lo scopo è trovare la clausola vuota.
     \end{itemize}
 \end{frame}
@@ -200,7 +200,7 @@
 
 \begin{frame}{Verificare la validità di una formula}
     \begin{itemize}
-        \item L'utilizzo pratico implementato è la verifica della \textbf{validità} di una formula $F$.
+        \item L'utilizzo pratico implementato è la verifica della \textbf{validità} di una formula $F$ in input.
         \vspace{5px}
         \begin{center}
             F è \textbf{valida} $\iff$ $\lnot F$ è \textbf{insoddisfacibile}
@@ -217,47 +217,7 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Esempio (su logica classica)}
-    \begin{itemize}
-        \item Consideriamo la seguente formula $F$:
-        \[
-            F \; = \; (a \land (a \to b)) \to b
-        \]
-        \item applicando la clausificazione su $\lnot F$ si ottiene il seguente insieme di clausole $S$:
-        \[
-            S \; = \; \{\quad \{a\}, \{\lnot a, b\}, \{\lnot b\} \quad\}
-        \]
-        \item eseguendo il metodo di risoluzione si trova la clausola vuota in due passaggi:
-        
-    \end{itemize}
-    \begin{center}
-        \begin{minipage}{0.45\textwidth}
-            \[
-                \AXC{$\overbrace{\{ a\}}^{C_1}$}
-                \AXC{$\overbrace{\{\lnot a, b\}}^{C_2}$}
-                \RightLabel{Res}
-                \BIC{$\underbrace{\{b\}}_{R}$}
-                \DP
-            \]
-        \end{minipage}
-        \hspace{0.05\textwidth}
-        \begin{minipage}{0.45\textwidth}
-            \[
-                \AXC{$\overbrace{\{ b\}}^{C_1}$}
-                \AXC{$\overbrace{\{\lnot b\}}^{C_2}$}
-                \RightLabel{Res}
-                \BIC{$\underbrace{\{\}}_{R}$}
-                \DP
-            \]
-        \end{minipage}
-    \end{center}
-
-    \begin{itemize}
-        \item $\lnot F$ è insoddisfacibile, questo dimostra che $F$ è valida.
-    \end{itemize}
-    
-\end{frame}
-
+\section{Tecnologie}
 \begin{frame}{Tecnologie utilizzate}
     \begin{itemize}
         \item \textbf{Visual Studio Code}: ambiente utilizzato per programmare in Java.
