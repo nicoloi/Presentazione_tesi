@@ -54,6 +54,12 @@
         \item il metodo di risoluzione per la logica classica è già noto, e già implementato.
         \vspace{10px}
         \item il metodo di risoluzione per logiche modali non-normali è descritto in un recente articolo, e mai implementato.
+        
+        \vspace{10px}
+
+        \textbf{Articolo}: \emph{Resolution Calculi for Non-normal Modal Logics}, Tableaux 2023.
+        
+        \textbf{autori}: Dirk Pattinson, Nicola Olivetti e Clàudia Nalon.
         \vspace{10px}
     \end{itemize}
     
@@ -62,11 +68,11 @@
 
 \begin{frame}{Il metodo di risoluzione}
     \begin{itemize}
-        \item \textbf{metodo di risoluzione}: sistema di calcolo per inferire la soddisfacibilità di un \emph{insieme di clausole} $S$.
+        \item \textbf{metodo di risoluzione}: calcolo per inferire la soddisfacibilità di un \emph{insieme di clausole} $S$.
         \vspace{10px}
-        \item \textbf{Insieme di clausole}: notazione insiemistica della \emph{Forma normale congiuntiva} (CNF) di una formula.
+        \item \textbf{Clausola}: disgiunzione di letterali, rappresentabile come insieme di letterali.
         \vspace{10px}
-        \item \textbf{Clausola}: disgiunzione di letterali $\Rightarrow$ insieme di letterali.
+        \item Un insieme di clausole è la rappresentazione insiemistica della \emph{Forma normale congiuntiva} (CNF) di una formula.
     \end{itemize}
     \vspace{20px}
 
@@ -93,14 +99,13 @@
         \item Per applicare \emph{Res} è necessario che esista un letterale $L \in C_1$ ed il suo opposto $\overline{L} \in C_2$. Si cancellano $L$ e $\overline{L}$ e si uniscono le due clausole.
         Esempio:
         \[
-            \AXC{$\overbrace{\{ a, b \}}^{C_1}$}
-            \AXC{$\overbrace{\{\lnot b, c, d \}}^{C_2}$}
+            \AXC{$\overbrace{\{ a, \textcolor{red}{b} \}}^{C_1}$}
+            \AXC{$\overbrace{\{\textcolor{red}{\lnot b}, c, d \}}^{C_2}$}
             \RightLabel{Res}
             \BIC{$\underbrace{\{ a, c, d \}}_{R}$}
             \DP
         \]
         \item La risolvente $R$ viene aggiunta a $S$ se non è tautologica e non è già presente in $S$.
-        
     \end{itemize}
 
     \begin{center}
@@ -108,9 +113,9 @@
             \begin{itemize}
                 \item Lo scopo è trovare la clausola vuota.
             \end{itemize}
-            Se la trova $\implies$ S è \textcolor{red}{INSODDISFACIBILE}
+            Se la trova $\implies$ S è \textcolor{red}{INSODDISFACIBILE}.
 
-            Se non la trova $\implies$ S è \textcolor{darkgreen}{SODDISFACIBILE}
+            Se non la trova $\implies$ S è \textcolor{darkgreen}{SODDISFACIBILE}.
         \end{minipage}
         \hspace{0.05\textwidth}
         \begin{minipage}{0.45\textwidth}
@@ -131,8 +136,8 @@
 \begin{frame}{Clausificazione di una formula}
     \begin{itemize}
         \item per verificare soddisfacibilità di una formula arbitraria F bisogna prima eseguire la clausificazione.
-        \item \textbf{Clausificazione}: conversione di una formula in insieme di clausole equivalente.
-        \item per effettuare la clausificazione si applicano le regole di inferenza:
+        \item \textcolor{red}{\textbf{Clausificazione}}: conversione di una formula in insieme di clausole equivalente.
+        \item per effettuare la clausificazione si applicano le regole di riscrittura:
         \begin{itemize}
             \item \textbf{Eliminazione della doppia implicazione}
             \item \textbf{Eliminazione dell'implicazione}
@@ -141,7 +146,11 @@
             \item \textbf{Leggi di De Morgan}
         \end{itemize}
         % \item Le regole vengono applicate ricorsivamente sulle sottoformule.
-        \item Esempio: $\quad F = (a \lor b) \to c$ \\diventa: $\quad S = \{ \; \{\lnot a, c\}, \{\lnot b, c\} \; \}$
+        \item Esempio: $\quad F = (a \lor b) \to c$
+        
+        In CNF: $\quad (\lnot a \lor c) \land (\lnot b \lor c)$
+        
+        Insieme di clausole: $S = \{ \; \{\lnot a, c\}, \{\lnot b, c\} \; \}$
     \end{itemize}
     
 \end{frame}
@@ -156,7 +165,7 @@
             \item \textbf{Clausola locale (classica)}: \[ l_1 \lor l_2 \lor \ldots \lor l_n \]
             \item \textbf{Clausola \textcolor{red}{globale}}: \[ G(l_1 \lor l_2 \lor \ldots \lor l_n) \]
         \end{itemize}
-        dove $l_i$ è un letterale.
+        dove $l_i$ è un letterale (proposizionale o modale).
         \item Consideriamo la logica modale non-normale minimale \textbf{E}. Per questa logica il metodo di risoluzione applica le regole $RES_E$. 
     \end{itemize}
 
